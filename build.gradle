@@ -17,7 +17,18 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	// Spring Boot Starter Web 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Spring Boot Starter Data JPA 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// Spring Boot Starter Test 의존성 추가 (테스트 코드 작성 시 필요)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// Tomcat Embed Jasper 의존성 추가 (JSP 사용을 위한 내장 톰캣 사용)
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'com.mysql:mysql-connector-j'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
