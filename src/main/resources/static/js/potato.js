@@ -29,7 +29,7 @@ loader.load('/potato/scene.gltf', function(gltf){ //gltf 파일 가져오기
 
     function animate(){
         requestAnimationFrame(animate); //1초에 60번
-        gltf.scene.rotation.y += 0.007;
+        gltf.scene.rotation.y += 0.01;
         renderer.render(scene, camera); //장면을 렌더링
     }
 
