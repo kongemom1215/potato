@@ -10918,7 +10918,7 @@ section {
   font-size: 1.75rem;
 }
 #mainNav .navbar-brand:hover, #mainNav .navbar-brand:active {
-  color: #2937f0;
+  //color: #2937f0;
 }
 #mainNav .navbar-toggler {
   font-size: 0.875rem;
@@ -11123,7 +11123,7 @@ footer a {
   text-decoration: none;
 }
 footer a:hover, footer a:active, footer a:focus {
-  color: rgba(255, 255, 255, 0.75);
+  color: #8E8E8E;
   text-decoration: underline;
 }
 

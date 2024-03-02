@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Gamza Community" />
+    <meta name="author" content="Gamza Girl" />
+    <title>감자조아</title>
+    <link rel="icon" type="image/x-icon" href="/assets/potato_icon.png" />
+
+    <!-- CSS include-->
+    <link href="/css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/community_main.css" rel="stylesheet" />
+
+    <!--script include-->
+    <script src="/js/common/jquery-3.7.1.min.js"></script>
+    <script src="/js/common/bootstrap.bundle.min.js"></script>
+    <script src="/js/common/sb-forms-latest.js"></script>
+    <script src="/js/common/top_navigator.js"></script>
+    <script src="/js/common/sidebar_toggle"></script>
+
+</head>
+<body id="page-top">
+<!-- font-->
+<th:block layout:fragment="font" th:include="@{/font/font_links}"></th:block>
+
+<!-- content-->
+<th:block layout:fragment="content" th:include="@{/content/community_main_content}"></th:block>-
+
+<!-- Footer-->
+<th:block layout:fragment="footer" th:include="@{/layout/footer}"></th:block>
+
+</body>
+</html>

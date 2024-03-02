@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
 
-    @RequestMapping("/")
-    public String goMainPage(){
-        return "main_test";
+    @RequestMapping("/intro")
+    public String goHomePage(){
+        return "intro";
     }
 
-    @RequestMapping("/potato")
-    public String goPotato(){
-        return "potato";
+    @RequestMapping("/community/main")
+    public String goMainPage(){
+        return "communityMain";
     }
 
 }
