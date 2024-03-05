@@ -11,17 +11,115 @@
     <!-- CSS include-->
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/bootstrap-icons.css" rel="stylesheet" />
-    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/main_style.css" rel="stylesheet" />
 
     <!--script include-->
     <script src="/js/common/jquery-3.7.1.min.js"></script>
     <script src="/js/common/bootstrap.bundle.min.js"></script>
     <script src="/js/common/sb-forms-latest.js"></script>
     <script src="/js/common/top_navigator.js"></script>
-
+    <script src="/js/mainpage_script.js"></script>
 </head>
 <body id="page-top">
-
+<!-- font-->
+<th:block layout:fragment="font" th:include="@{/font/font_links}"></th:block>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar-->
+        <div class="border-end text-white bg-opacity-75 bg-success" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center border-bottom">감자조아</div>
+            <div class="list-group list-group-flush">
+                <a class="p-3" href="#!">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" aria-label="Search">
+                        <button class="btn btn-warning" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+                </a>
+                <a class="list-group-item-action p-3" href="#!">
+                    <button class="btn">메인</button>
+                </a>
+                <a class="list-group-item-action p-3" href="#community" data-bs-toggle="collapse"  role="button" aria-expanded="false" aria-controls="community">
+                    <button class="btn">커뮤니티</button>
+                    <div class="collapse mt-3" id="community">
+                        <div class="card card-body">
+                            <button class="btn btn-light mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#community">
+                                자유게시판
+                            </button>
+                            <button class="btn btn-light mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#community">
+                                고급 감자 정보
+                            </button>
+                        </div>
+                    </div>
+                </a>
+                <a class="list-group-item-action p-3" href="#good-restaurant" data-bs-toggle="collapse"  role="button" aria-expanded="false" aria-controls="good-restaurant">
+                    <button class="btn">지역별 감자 맛집</button>
+                    <div class="collapse mt-3" id="good-restaurant">
+                        <div class="card card-body">
+                            <h6 class="card-title mb-2 text-body-secondary">지역</h6>
+                            <button class="btn btn-light mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                                전체
+                            </button>
+                            <h6 class="card-title mb-2 text-body-secondary">지역별로 오픈 예정입니다.</h6>
+                            <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                                서울
+                            </button>
+                            <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                                춘천
+                            </button>
+                            <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                                강릉
+                            </button>
+                        </div>
+                    </div>
+                </a>
+                <a class="list-group-item-action p-3" href="#!"><button class="btn">감자 레시피</button></a>
+                <a class="list-group-item-action p-3" href="#!"><button class="btn">감자 월드컵</button></a>
+                <a class="list-group-item-action p-3" href="#!"><button class="btn">인기글 모음</button></a>
+                <div class="card mt-3 mb-3 ms-3 me-3 text-center" style="font-size: .875rem; background-color: rgba(0, 0, 0, .1); color: rgba(255, 255, 255, .8); border-radius: 0.35rem;">
+                    <div class="card-body">
+                        <img class="mb-2" src="/assets/potato_icon.png" alt="..." style="height:3rem;">
+                        <p class="card-text"><b>감자조아</b>는 2024년 4월에 오픈했어요! 앞으로 더 많은 기능 추가할 예정입니다.</p>
+                        <a href="#" class="btn btn-light">More Information</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page content wrapper-->
+        <div id="page-content-wrapper">
+            <!-- Top navigation-->
+            <nav class="navbar navbar-expand-lg navbar-light shadow-sm" id="topNavbar">
+                <div class="container-fluid">
+                    <button class="btn btn-light" id="sidebarToggle">&lt;</button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <div class="ms-auto me-1 my-3 my-lg-0">
+                            <button type="button" class="btn btn-outline-success position-relative">
+                                <i class="bi bi-bell"></i>
+                                <span class="badge text-bg-danger">4</span>
+                            </button>
+                        </div>
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <div class="dropdown">
+                            <a href="#" class="d-flex align-items-center text-decoration-none text-dark dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                                <strong>감자걸</strong>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-lg-end text-small shadow" aria-labelledby="dropdownUser1">
+                                <li><a class="dropdown-item" href="#">내 정보</a></li>
+                                <li><a class="dropdown-item" href="#">찜한 글</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">로그아웃</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Page content-->
+            <div class="container-fluid">
+            </div>
+        </div>
+    </div>
 
 
 </body>
