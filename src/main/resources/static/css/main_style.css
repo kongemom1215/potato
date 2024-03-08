@@ -85,6 +85,13 @@
   box-sizing: border-box;
 }
 
+@font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;
@@ -10840,9 +10847,12 @@ a{
     font-size:1.75rem;
     padding: 0.875rem 1.25rem;
 }
-#sidebar-wrapper{
+#sidebar-wrapper {
     font-family: "Noto Sans KR", sans-serif;
     font-size: 1.2rem;
+}
+#page-content-wrapper {
+    font-family: 'NEXON Lv1 Gothic OTF';
 }
 
 #topNavbar {
@@ -10884,4 +10894,32 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+
+/* 메인 카카오맵 커스텀레이 스타일 */
+.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+/* 메인 카카오맵 커스텀레이 스타일 end */
+
+
+.border-left-success {
+    border-left: 0.25rem solid #1cc88a !important;
+}
+.border-left-warning {
+    border-left: 0.25rem solid #f6c23e !important;
+}
+.border-right-primary {
+    border-right: 0.25rem solid #4e73df !important;
+}
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+.fa-2x {
+    font-size: 2em;
 }
