@@ -83,7 +83,7 @@
                     <a href="#" class="btn btn-light">More Information</a>
                 </div>
             </div>
-            <a href="#" class="m-2 btn btn-potato">
+            <a href="/community/login"  class="m-2 btn btn-potato">
                 <span class="text text-white">로그인</span>
             </a>
         </div>
@@ -217,7 +217,7 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="card bg-middle-potato bg-opacity-75 text-white shadow">
+                            <div class="card bg-middle-potato bg-opacity-75 text-white shadow" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <div class="card-body">
                                     감자는 매력적이야.
                                     <div class="text-white-50 small">튀기면 튀기는대로, 삶으면 삶은대로, 너무맛있으니까.</div>
@@ -228,6 +228,21 @@
                 </div>
             </div>
         </div>
+        <!--로그인 안내 모달-->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" style="padding-right:17px;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        로그인이 필요한 서비스입니다.
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/community/login" class="btn btn-sm btn-potato">로그인</a>
+                        <a class="btn btn-sm btn-secondary" data-bs-dismiss="modal">나가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--로그인 안내 모달 END-->
     </div>
 </div>
 

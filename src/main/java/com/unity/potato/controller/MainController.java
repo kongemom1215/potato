@@ -21,4 +21,8 @@ public class MainController {
         return "requireLoginMain";
     }
 
+    @RequestMapping("/community/login")
+    public String goLoginPage(){
+        return "login";
+    }
 }
