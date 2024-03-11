@@ -16,4 +16,9 @@ public class MainController {
         return "communityMain";
     }
 
+    @RequestMapping("/community/notLogin/main")
+    public String goRequireLoginMainPage(){
+        return "requireLoginMain";
+    }
+
 }

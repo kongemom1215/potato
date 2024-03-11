@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Gamza Community" />
+    <meta name="author" content="Gamza Girl" />
+    <title>감자조아</title>
+    <link rel="icon" type="image/x-icon" href="/assets/potato_icon.png" />
+
+    <!-- CSS include-->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/css/main_style.css" rel="stylesheet" />
+
+    <!--script include-->
+    <script src="/js/common/jquery-3.7.1.min.js"></script>
+    <script src="/js/common/bootstrap.bundle.min.js"></script>
+    <!--<script src="/js/common/sb-forms-latest.js"></script>-->
+    <script src="/js/common/top_navigator.js"></script>
+    <script src="/js/mainpage_script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3968e05d9eafab82db72d2a531770d9f"></script>
+</head>
+<body id="page-top">
+<!-- font-->
+<th:block layout:fragment="font" th:include="@{/font/font_links}"></th:block>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end text-dark-potato bg-potato" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center border-bottom">감자조아</div>
+        <div class="list-group list-group-flush">
+            <a class="p-3" href="#!">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" aria-label="Search">
+                    <button class="btn btn-potato" type="submit"><i class="bi bi-search"></i></button>
+                </form>
+            </a>
+            <a class="list-group-item-action p-3" href="#!">
+                <button class="btn">메인</button>
+            </a>
+            <a class="list-group-item-action p-3" href="#community" data-bs-toggle="collapse"  role="button" aria-expanded="false" aria-controls="community">
+                <button class="btn">커뮤니티</button>
+                <div class="collapse mt-3" id="community">
+                    <div class="card card-body">
+                        <button class="btn btn-light mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#community">
+                            자유게시판
+                        </button>
+                        <button class="btn btn-light mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#community">
+                            고급 감자 정보
+                        </button>
+                    </div>
+                </div>
+            </a>
+            <a class="list-group-item-action p-3" href="#good-restaurant" data-bs-toggle="collapse"  role="button" aria-expanded="false" aria-controls="good-restaurant">
+                <button class="btn">지역별 감자 맛집</button>
+                <div class="collapse mt-3" id="good-restaurant">
+                    <div class="card card-body">
+                        <h6 class="card-title mb-2 text-body-secondary">지역</h6>
+                        <button class="btn btn-light mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            전체
+                        </button>
+                        <h6 class="card-title mb-2 text-body-secondary">지역별로 오픈 예정입니다.</h6>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            서울
+                        </button>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            춘천
+                        </button>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            강릉
+                        </button>
+                    </div>
+                </div>
+            </a>
+            <a class="list-group-item-action p-3" href="#!"><button class="btn">감자 레시피</button></a>
+            <a class="list-group-item-action p-3" href="#!"><button class="btn">감자 월드컵</button></a>
+            <a class="list-group-item-action p-3" href="#!"><button class="btn">인기글 모음</button></a>
+            <div class="card mt-3 mb-3 ms-3 me-3 text-center" style="font-size: .875rem; background-color: rgba(0, 0, 0, .1); color: rgba(255, 255, 255, .8); border-radius: 0.35rem;">
+                <div class="card-body">
+                    <img class="mb-2" src="/assets/potato_icon.png" alt="..." style="height:3rem;">
+                    <p class="card-text"><b>감자조아</b>는 2024년 4월에 오픈했어요! 앞으로 더 많은 기능 추가할 예정입니다.</p>
+                    <a href="#" class="btn btn-light">More Information</a>
+                </div>
+            </div>
+            <a href="#" class="m-2 btn btn-potato">
+                <span class="text text-white">로그인</span>
+            </a>
+        </div>
+    </div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm" id="topNavbar">
+            <div class="container-fluid">
+                <button class="btn btn-potato" id="sidebarToggle">&lt;</button>
+            </div>
+        </nav>
+        <!-- Page content-->
+        <div class="container-fluid px-4">
+            <div class="container my-3">
+                <div class="row mt-3 mb-3">
+                    <div class="col-lg-8 col-md-6 col-sm-8 col-xs-12 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="font-weight-bold text-dark text-uppercase mb-1">
+                                    맛집 네비게이션
+                                </div>
+                                <hr>
+                                <div id="map" style="position: relative; height:77vh;"></div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-dark" href="#">여러분의 맛집도 소개해주세요!</a>
+                                <div class="small text-dark">
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
+                        <div class="row">
+                            <div class="card" style="padding : 0rem;">
+                                <div class="card-header">
+                                    감자조아 인기글
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item list-group-item-action">
+                                        <a>
+                                            맥날 리치 포테이토 버거 후기입니다.
+                                            <span class="badge text-bg-secondary float-right">3</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-action">
+                                        <a>
+                                            합정동 뇨끼 맛집 ㅇㅇㅇ 아시나요?
+                                            <span class="badge text-bg-secondary float-right">9</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-action">
+                                        <a>
+                                            솔직히 감자는 저평가되었음
+                                            <span class="badge text-bg-secondary float-right">99+</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-action">
+                                        <a>
+                                            님들이거보셈
+                                            <span class="badge text-bg-secondary float-right">1</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-dark" href="#">더보기</a>
+                                    <div class="small text-dark">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                요즘 뜨는 감자 요리는?</div>
+                                            <div class="text-black-50 font-weight-bold small">알고싶으면 click!</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="bi bi-hand-index-thumb fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="font-weight-bold text-success text-uppercase mb-1">
+                                                맛도리 감자 레시피 </div>
+                                            <div class="text-black-50 font-weight-bold small">알고싶으면 Click!</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="bi bi-hand-index-thumb fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="card border-right-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="font-weight-bold text-primary text-uppercase mb-1">
+                                                AI가 알려주는 레시피 </div>
+                                            <div class="text-black-50 font-weight-bold small">click! 해보세요</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-robot" viewBox="0 0 16 16">
+                                                <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
+                                                <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="card text-center">
+                                <div class="card-body" style="position: relative; height:30vh;">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="card bg-middle-potato bg-opacity-75 text-white shadow">
+                                <div class="card-body">
+                                    감자는 매력적이야.
+                                    <div class="text-white-50 small">튀기면 튀기는대로, 삶으면 삶은대로, 너무맛있으니까.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
