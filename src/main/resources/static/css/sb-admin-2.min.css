@@ -36,7 +36,7 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
-    --font-family-sans-serif: "Nunito",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    --font-family-sans-serif: Lv1 Gothic OTF,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace
 }
 
@@ -57,7 +57,7 @@ article,aside,figcaption,figure,footer,header,hgroup,main,nav,section {
 
 body {
     margin: 0;
-    font-family: Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-family: Lv1 Gothic OTF,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -2428,14 +2428,14 @@ a.btn.disabled,fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #2937f0;
+    border-color: #2937f0;
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #2e59d9;
-    border-color: #2653d4
+    background-color: #22937f0;
+    border-color: #2937f0;
 }
 
 .btn-primary.focus,.btn-primary:focus {
@@ -11040,17 +11040,17 @@ a:focus {
     background-size: cover
 }
 
-form.user .custom-checkbox.small label {
+form .custom-checkbox.small label {
     line-height: 1.5rem
 }
 
-form.user .form-control-user {
+form .form-control-user {
     font-size: .8rem;
     border-radius: 10rem;
     padding: 1.5rem 1rem
 }
 
-form.user .btn-user {
+form .btn-user {
     font-size: .8rem;
     border-radius: 10rem;
     padding: .75rem 1rem
@@ -11127,11 +11127,10 @@ form.user .btn-user {
 }
 
 .error {
-    color: #5a5c69;
-    font-size: 7rem;
-    position: relative;
-    line-height: 1;
-    width: 12.5rem
+    display: block;
+    color: #f00;
+    border-color: #f00;
+    font-size: 0.8rem;
 }
 
 @-webkit-keyframes noise-anim {

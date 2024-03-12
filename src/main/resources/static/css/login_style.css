@@ -60,7 +60,7 @@
   --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
-  --bs-body-font-family: var(--bs-font-sans-serif);
+  --bs-body-font-family: Lv1 Gothic OTF, Mulish, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
@@ -88,7 +88,7 @@
     font-weight: normal;
     font-style: normal;
 }
-.container{
+#page-content{
     font-family: 'NEXON Lv1 Gothic OTF';
 }
 #mainNav {
@@ -156,16 +156,16 @@
 }
 
 body {
-  margin: 0;
-  font-family: var(--bs-body-font-family);
-  font-size: var(--bs-body-font-size);
-  font-weight: var(--bs-body-font-weight);
-  line-height: var(--bs-body-line-height);
-  color: var(--bs-body-color);
-  text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  margin: 0 !important;
+  font-family: var(--bs-body-font-family) !important;
+  font-size: var(--bs-body-font-size) !important;
+  font-weight: var(--bs-body-font-weight) !important;
+  line-height: var(--bs-body-line-height) !important;
+  color: var(--bs-body-color) !important;
+  text-align: var(--bs-body-text-align) !important;
+  background-color: var(--bs-body-bg) !important;
+  -webkit-text-size-adjust: 100% !important;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
 
 hr {
@@ -2908,20 +2908,20 @@ textarea.form-control-lg {
 }
 
 .btn-primary {
-  --bs-btn-color: #fff;
-  --bs-btn-bg: #0d6efd;
-  --bs-btn-border-color: #0d6efd;
-  --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #0b5ed7;
-  --bs-btn-hover-border-color: #0a58ca;
-  --bs-btn-focus-shadow-rgb: 49, 132, 253;
-  --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #0a58ca;
-  --bs-btn-active-border-color: #0a53be;
-  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #0d6efd;
-  --bs-btn-disabled-border-color: #0d6efd;
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #2937f0;
+    --bs-btn-border-color: #2937f0;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #232fcc;
+    --bs-btn-hover-border-color: #212cc0;
+    --bs-btn-focus-shadow-rgb: 73, 85, 242;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #212cc0;
+    --bs-btn-active-border-color: #1f29b4;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #2937f0;
+    --bs-btn-disabled-border-color: #2937f0;
 }
 
 .btn-secondary {
@@ -3895,6 +3895,7 @@ textarea.form-control-lg {
   flex-basis: 100%;
   flex-grow: 1;
   align-items: center;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 .navbar-toggler {
@@ -10959,4 +10960,17 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+
+/*input number type 화살표제거*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+-moz-appearance: textfield;
 }

@@ -25,4 +25,14 @@ public class MainController {
     public String goLoginPage(){
         return "login";
     }
+
+    @RequestMapping("/community/login/findPwd")
+    public String goFindPasswordPage(){
+        return "findPassword";
+    }
+
+    @RequestMapping("/community/login/signup")
+    public String goSignupPage(){
+        return "signup";
+    }
 }
