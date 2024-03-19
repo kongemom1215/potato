@@ -35,4 +35,9 @@ public class MainController {
     public String goSignupPage(){
         return "signup";
     }
+
+    @RequestMapping("/community/board/free")
+    public String goFreeBoard(){
+        return "freeBoard";
+    }
 }
