@@ -1,11 +1,14 @@
 package com.unity.potato.controller;
 
+import com.unity.potato.util.LoginUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainController {
 
+    private final LoginUtil loginUtil = LoginUtil.getInstance();
     @RequestMapping("/intro")
     public String goHomePage(){
         return "intro";
@@ -13,7 +16,11 @@ public class MainController {
 
     @RequestMapping("/community/main")
     public String goMainPage(){
-        return "communityMain";
+        if(loginUtil.isNotLogin()){
+            return "requireLoginMain";
+        } else {
+            return "communityMain";
+        }
     }
 
     @RequestMapping("/community/notLogin/main")
