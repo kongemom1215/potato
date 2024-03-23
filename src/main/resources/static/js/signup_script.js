@@ -18,6 +18,27 @@ function requireFourLengthCode(){
     });
 }
 
+function sendEmailCode(){
+    $.ajax({
+        type: "POST",
+        url: "/api/signup/send-email-auth",
+        data: {
+            inputEmail: $('#inputEmail').val()
+        },
+        success: function(response) {
+            // 요청이 성공한 경우
+            console.log(response); // 성공 메시지 출력
+            showCodeInput();
+        },
+        error: function(xhr, status, error) {
+            // 요청이 실패한 경우
+            var errorMessage = xhr.responseJSON.message;
+            console.error(errorMessage); // 실패 메시지 출력
+        }
+    });
+}
+
+
 function showCodeInput(){
     $('.user_email').css('display','none');
     $('.user_email_validate').css('display','block');
@@ -75,7 +96,7 @@ jQuery(function() {
     $('#inputEmail').on('keyup change', function() {
         if (emailForm.valid()) { // 유효성 검사 통과 여부 확인
             var continueBtnHtml=
-                `<a onclick="showCodeInput();" id="continueBtn" class="btn btn-primary btn-user btn-block">
+                `<a onclick="sendEmailCode();" id="continueBtn" class="btn btn-primary btn-user btn-block">
                     계속하기
                 </a>`;
             $("#continueBtnDiv_1").html(continueBtnHtml);
