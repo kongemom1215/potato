@@ -29,13 +29,17 @@ public class SignupController {
     @Autowired
     private MailService mailService;
 
+    /**
+        회원가입 이메일 인증 코드 발송
+        author : joohye
+     */
     @PostMapping("/send-email-auth")
-    public ResponseEntity<?> sendEmailAuth(@RequestParam String inputEmail) throws IOException {
+    public ResponseEntity<?> sendEmailAuth(@RequestParam("inputEmail") String inputEmail) throws IOException {
         try {
             //코드 전송
             //EmailCertHistory emailCertHistory = userService.sendAuthEmail(inputEmail);
 
-            mailService.sendCertificationMail(inputEmail);
+            mailService.sendCodeMail(inputEmail);
 
             //이력 저장
             /*if(emailCertHistory != null){
@@ -43,7 +47,8 @@ public class SignupController {
             } else {
                 return ResponseEntity.badRequest().body(new MessageResponse("Error : 메일 전송 실패"));
             }*/
-        } catch (DataAccessException e){
+        } catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(new MessageResponse("Error : " + e.getMessage()));
         }
 

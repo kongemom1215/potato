@@ -13,6 +13,7 @@ build/
 .settings
 .springBeans
 .sts4-cache
+.properties
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
@@ -38,3 +39,4 @@ out/
 
 # Ignore application.properties file
 application.properties
+mailAuth.properties

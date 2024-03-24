@@ -19,33 +19,12 @@ public class UserService implements UserServiceImpl{
     @Autowired
     private HtmlUtil htmlUtil;
 
-    @Autowired
-    private JavaMailSender mailSender;
 
     @Override
     public EmailCertHistory sendAuthEmail(String inputEmail) throws IOException {
         EmailCertHistory emailCertHistory = new EmailCertHistory(inputEmail);
 
         try {
-            // 이메일 전송
-            String host = "gamzazoa@kakao.com";
-            String subject = "[감자조아] 이메일 인증 코드 발급";
-            String content = htmlUtil.readHtmlFile();
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message);
-
-            helper.setFrom(host, "감자조아");
-            helper.setTo(inputEmail);
-            helper.setSubject(subject);
-
-            String randomCode = generateRandom4DigitNumber();
-            content= content.replace("[[code]]", randomCode);
-            emailCertHistory.setCertCd(randomCode);
-
-            helper.setText(content, true);
-
-            mailSender.send(message);
-
             //만료 시간 계산
             LocalDateTime currentTime = LocalDateTime.now();
             LocalDateTime expireTime = currentTime.plusMinutes(30);

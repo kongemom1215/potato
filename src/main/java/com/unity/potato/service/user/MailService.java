@@ -1,65 +1,71 @@
 package com.unity.potato.service.user;
 
 import com.unity.potato.util.HtmlUtil;
+import com.unity.potato.util.RedisUtil;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
-public class MailService {
+public class MailService{
 
     @Autowired
     private JavaMailSender javaMailSender;
-    //private final RedisUtil redisUtil;
-    @Autowired
-    private HtmlUtil htmlUtil;
 
-    private MimeMessage createMessage(String code, String email) throws IOException, MessagingException {
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    private final RedisUtil redisUtil;
 
-        helper.setTo(email);
-        helper.setSubject("[감자조아] 이메일 인증 코드 발급");
+    private final HtmlUtil htmlUtil;
 
-        String content = htmlUtil.readHtmlFile();
-        content= content.replace("[[code]]", code);
-        helper.setText(content, true);
-
-        return  message;
+    public MailService(JavaMailSender javaMailSender, RedisUtil redisUtil, HtmlUtil htmlUtil) {
+        this.javaMailSender = javaMailSender;
+        this.redisUtil = redisUtil;
+        this.htmlUtil = htmlUtil;
     }
 
-    private void sendMail(String code, String email) throws Exception{
+
+    public void sendHtmlMessage(String to, String htmlBody, String subject) throws Exception {
         try {
-            MimeMessage mimeMessage = createMessage(code, email);
-            javaMailSender.send(mimeMessage);
-        } catch (MailException e){
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlBody, true);
+            helper.setFrom(new InternetAddress("commercium@naver.com", "감자조아"));
+
+            javaMailSender.send(message);
+        } catch(Exception e){
             e.printStackTrace();
-            throw new IllegalArgumentException();
         }
     }
 
-    public String sendCertificationMail(String email) {
-        try{
-            String code = UUID.randomUUID().toString().substring(0, 4); //랜덤 인증번호 uuid를 이용!
-            sendMail(code,email);
 
-            //redisUtil.setDataExpire(code,email,60*5L); // {key,value} 5분동안 저장.
+    public void sendCodeMail(String email) throws Exception {
+        try {
+            String htmlBody = htmlUtil.readHtmlFile("certEmail.html");
+            String code = generateRandomCode();
+            htmlBody= htmlBody.replace("[[code]]", code);
+            String subject = "[감자조아] 이메일 인증 코드 발급";
+            sendHtmlMessage(email, htmlBody, subject);
 
-            return  code;
-        }catch (Exception e){
+            redisUtil.add("emailCertCode", code, 30);
+        } catch (Exception e){
             e.printStackTrace();
-            throw new IllegalArgumentException();
         }
     }
 
-    public static String createRandomCode() {
-        return UUID.randomUUID().toString().substring(0, 4);
+    public static String generateRandomCode() {
+        Random random = new Random();
+        int randomNum = random.nextInt(10000); // 0부터 9999 사이의 난수 생성
+        return String.format("%04d", randomNum); // 4자리로 맞추고 앞을 0으로 채움
     }
+
+
 }
