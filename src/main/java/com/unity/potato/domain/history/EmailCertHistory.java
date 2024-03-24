@@ -1,5 +1,6 @@
 package com.unity.potato.domain.history;
 
+import com.unity.potato.domain.vo.EmailVo;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,21 +19,39 @@ public class EmailCertHistory {
     @Column(name="cert_cd")
     private String certCd;
 
-    @Column(name="expire_dt")
-    private LocalDateTime expireDt;
+    @Column(name="send_dt")
+    private LocalDateTime sendDt;
+
+    @Column(name="cert_dt")
+    private LocalDateTime certDt;
 
     @Column(name="cert_fl")
-    private char certYn;
+    private char certYn = 'N';
 
     public EmailCertHistory(String emailAddress){
         this.emailAddress = emailAddress;
     }
 
-    public EmailCertHistory(String emailAddress, String certCd, LocalDateTime expireDt, char certYn) {
-        this.emailAddress = emailAddress;
-        this.certCd = certCd;
-        this.expireDt = expireDt;
-        this.certYn = certYn;
+    public EmailCertHistory(EmailVo emailVo){
+        this.emailAddress = emailVo.getEmail();
+        this.certCd = emailVo.getCertCd();
+        this.sendDt = LocalDateTime.now();
+    }
+
+    public LocalDateTime getSendDt() {
+        return sendDt;
+    }
+
+    public void setSendDt(LocalDateTime sendDt) {
+        this.sendDt = sendDt;
+    }
+
+    public LocalDateTime getCertDt() {
+        return certDt;
+    }
+
+    public void setCertDt(LocalDateTime certDt) {
+        this.certDt = certDt;
     }
 
     public Long getEmailId() {
@@ -57,14 +76,6 @@ public class EmailCertHistory {
 
     public void setCertCd(String certCd) {
         this.certCd = certCd;
-    }
-
-    public LocalDateTime getExpireDt() {
-        return expireDt;
-    }
-
-    public void setExpireDt(LocalDateTime expireDt) {
-        this.expireDt = expireDt;
     }
 
     public char getCertYn() {

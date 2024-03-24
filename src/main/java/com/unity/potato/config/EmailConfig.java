@@ -65,4 +65,8 @@ public class EmailConfig {
         properties.setProperty("mail.smtp.ssl.enable","true"); // ssl 사용
         return properties;
     }
+
+    public String getUserName() {
+        return username;
+    }
 }

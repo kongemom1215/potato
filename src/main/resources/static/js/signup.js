@@ -17,34 +17,73 @@ function requireFourLengthCode(){
         }
     });
 }
-
-function sendEmailCode(){
+function verificationCode(){
     $.ajax({
         type: "POST",
-        url: "/api/signup/send-email-auth",
-        data: {
-            inputEmail: $('#inputEmail').val()
-        },
-        success: function(response) {
-            // 요청이 성공한 경우
-            console.log(response); // 성공 메시지 출력
-            showCodeInput();
+        url: "/api/signup/email-auth",
+        contentType: "application/json",
+        data: JSON.stringify({
+            email : $('#inputEmail').val(),
+            code : $('#emailCode').val()
+        }),
+        success: function(result) {
+            if(result.resultCode == "0000"){ //성공
+                console.log(result.resultMsg);
+            } else if(result.resultCode == "9999"){ //실패
+                alert(result.resultMsg);
+            } else if(result.resultCode == "9998"){ // 10회 이상 시도
+                alert(result.resultMsg);
+                location.href="/community/login";
+            } else if(result.resultCode == "9997") { //이미 가입된 메일
+                alert(result.resultMsg);
+                location.href="/community/login";
+            }
         },
         error: function(xhr, status, error) {
             // 요청이 실패한 경우
             var errorMessage = xhr.responseJSON.message;
-            console.error(errorMessage); // 실패 메시지 출력
+            console.log(errorMessage); // 실패 메시지 출력
+            alert("이메일 전송 실패! 잠시후 다시 시도해보세요");
+        }
+    });
+}
+
+function sendEmailCode(){
+    var email = $('#inputEmail').val();
+    $('#continueBtn').html(`<div class="spinner-border spinner-border-sm" role="status">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>`);
+
+    $.ajax({
+        type: "POST",
+        url: "/api/signup/send-email-auth",
+        data: {
+            inputEmail: email
+        },
+        success: function(result) {
+            if(result.resultCode == "0000"){ //성공
+                console.log(result.resultMsg);
+                cookieUtil.setCookie("signupInputEmail", email)
+                showCodeInput(email);
+            } else if(result.resultCode == "9998"){ //10회 이상 시도
+                alert(result.resultMsg);
+            }
+        },
+        error: function(xhr, status, error) {
+            // 요청이 실패한 경우
+            var errorMessage = xhr.responseJSON.message;
+            console.log(errorMessage); // 실패 메시지 출력
+            alert("이메일 전송 실패! 잠시후 다시 시도해보세요");
         }
     });
 }
 
 
-function showCodeInput(){
+function showCodeInput(email){
     $('.user_email').css('display','none');
     $('.user_email_validate').css('display','block');
 
-    var inputEmail = $('#inputEmail').val();
-    $('#email').val(inputEmail);
+    $('#email').val(email);
 }
 
 function backEmailForm(){

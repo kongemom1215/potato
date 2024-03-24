@@ -1,13 +1,10 @@
 package com.unity.potato.controller;
 
-import com.unity.potato.domain.history.EmailCertHistory;
-import com.unity.potato.domain.history.EmailCertHistoryRepository;
 import com.unity.potato.domain.user.UserInfoRepository;
-import com.unity.potato.dto.response.MessageResponse;
-import com.unity.potato.service.user.MailService;
-import com.unity.potato.service.user.UserService;
+import com.unity.potato.dto.request.EmailAuthRequest;
+import com.unity.potato.dto.response.Result;
+import com.unity.potato.service.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,47 +15,48 @@ import java.io.IOException;
 public class SignupController {
 
     @Autowired
-    private UserInfoRepository userInfoRepository;
-
-    @Autowired
-    private EmailCertHistoryRepository emailCertHistoryRepository;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
     private MailService mailService;
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     /**
         회원가입 이메일 인증 코드 발송
-        author : joohye
      */
     @PostMapping("/send-email-auth")
     public ResponseEntity<?> sendEmailAuth(@RequestParam("inputEmail") String inputEmail) throws IOException {
         try {
-            //코드 전송
-            //EmailCertHistory emailCertHistory = userService.sendAuthEmail(inputEmail);
-
+            if(mailService.getEmailTryCount(inputEmail) > 10){
+                return ResponseEntity.ok(new Result("9998","인증 시도 횟수가 10회 넘었습니다. 내일 다시 시도하시길 바랍니다."));
+            }
             mailService.sendCodeMail(inputEmail);
-
-            //이력 저장
-            /*if(emailCertHistory != null){
-                emailCertHistoryRepository.save(emailCertHistory);
-            } else {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error : 메일 전송 실패"));
-            }*/
         } catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.badRequest().body(new MessageResponse("Error : " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new Result("Error : " + e.getMessage()));
         }
 
-        return ResponseEntity.ok(new MessageResponse("send email successfully!"));
+        return ResponseEntity.ok(new Result("0000","이메일 코드 전송 성공"));
     }
 
-    /*@PostMapping("/email-auth")
-    public ResponseEntity<?> emailAuth(@RequestBody ){
-        if(userInfoRepository.existsByUserEmail(inputEmail)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error : 이미 가입되어있는 이메일입니다."));
+    /**
+     * 회원가입 인증 메일 코드 확인
+     */
+    @PostMapping("/email-auth")
+    public ResponseEntity<?> emailAuth(@RequestBody EmailAuthRequest request) {
+        try {
+            if(userInfoRepository.existsByUserEmail(request.getEmail())) {
+                return ResponseEntity.ok(new Result("9997","이미 가입되어있는 이메일입니다."));
+            }
+            if(mailService.getEmailCodeTryCount(request) > 10){
+                return ResponseEntity.ok(new Result("9998","코드 인증 시도 횟수가 10회 넘었습니다. 내일 다시 시도하시길 바랍니다."));
+            }
+            if(mailService.isCodeVerified(request)){
+                return ResponseEntity.ok(new Result("0000","ok"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }*/
+
+        return ResponseEntity.ok(new Result("9999","만료됐거나 올바르지 않은 코드입니다."));
+    }
 }
