@@ -10,23 +10,17 @@ import java.time.LocalDateTime;
 public class EmailCertHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="email_id")
-    private Long emailId;
+    @Column(name="id")
+    private Long id;
 
     @Column(name="email_address")
     private String emailAddress;
 
-    @Column(name="cert_cd")
-    private String certCd;
+    @Column(name="reg_dt")
+    private LocalDateTime regDt;
 
-    @Column(name="send_dt")
-    private LocalDateTime sendDt;
-
-    @Column(name="cert_dt")
-    private LocalDateTime certDt;
-
-    @Column(name="cert_fl")
-    private char certYn = 'N';
+    @Column(name="cert_type")
+    private char certType;
 
     public EmailCertHistory(String emailAddress){
         this.emailAddress = emailAddress;
@@ -34,32 +28,16 @@ public class EmailCertHistory {
 
     public EmailCertHistory(EmailVo emailVo){
         this.emailAddress = emailVo.getEmail();
-        this.certCd = emailVo.getCertCd();
-        this.sendDt = LocalDateTime.now();
+        this.regDt = LocalDateTime.now();
+        this.certType = emailVo.getEmailType();
     }
 
-    public LocalDateTime getSendDt() {
-        return sendDt;
+    public Long getId() {
+        return id;
     }
 
-    public void setSendDt(LocalDateTime sendDt) {
-        this.sendDt = sendDt;
-    }
-
-    public LocalDateTime getCertDt() {
-        return certDt;
-    }
-
-    public void setCertDt(LocalDateTime certDt) {
-        this.certDt = certDt;
-    }
-
-    public Long getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(Long emailId) {
-        this.emailId = emailId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmailAddress() {
@@ -70,19 +48,19 @@ public class EmailCertHistory {
         this.emailAddress = emailAddress;
     }
 
-    public String getCertCd() {
-        return certCd;
+    public LocalDateTime getRegDt() {
+        return regDt;
     }
 
-    public void setCertCd(String certCd) {
-        this.certCd = certCd;
+    public void setRegDt(LocalDateTime regDt) {
+        this.regDt = regDt;
     }
 
-    public char getCertYn() {
-        return certYn;
+    public char getCertType() {
+        return certType;
     }
 
-    public void setCertYn(char certYn) {
-        this.certYn = certYn;
+    public void setCertType(char certType) {
+        this.certType = certType;
     }
 }

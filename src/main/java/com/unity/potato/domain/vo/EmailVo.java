@@ -1,5 +1,6 @@
 package com.unity.potato.domain.vo;
 
+import com.unity.potato.dto.request.EmailAuthRequest;
 import jakarta.mail.internet.InternetAddress;
 
 public class EmailVo {
@@ -8,6 +9,7 @@ public class EmailVo {
     private String certCd;
     private String htmlContent;
     private InternetAddress hostAddress;
+    private char emailType;
 
     public EmailVo(String hostMail, String hostName){
         try {
@@ -15,6 +17,17 @@ public class EmailVo {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public EmailVo(){
+    }
+
+    public char getEmailType() {
+        return emailType;
+    }
+
+    public void setEmailType(char emailType) {
+        this.emailType = emailType;
     }
 
     public InternetAddress getHostAddress() {

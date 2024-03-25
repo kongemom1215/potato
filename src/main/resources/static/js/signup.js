@@ -50,9 +50,7 @@ function verificationCode(){
 
 function sendEmailCode(){
     var email = $('#inputEmail').val();
-    $('#continueBtn').html(`<div class="spinner-border spinner-border-sm" role="status">
-                              <span class="visually-hidden">Loading...</span>
-                            </div>`);
+    updateContinueBtn("load");
 
     $.ajax({
         type: "POST",
@@ -63,7 +61,8 @@ function sendEmailCode(){
         success: function(result) {
             if(result.resultCode == "0000"){ //성공
                 console.log(result.resultMsg);
-                cookieUtil.setCookie("signupInputEmail", email)
+                cookieUtil.setCookie("signupInputEmail", email);
+                updateContinueBtn("avail");
                 showCodeInput(email);
             } else if(result.resultCode == "9998"){ //10회 이상 시도
                 alert(result.resultMsg);
@@ -76,8 +75,33 @@ function sendEmailCode(){
             alert("이메일 전송 실패! 잠시후 다시 시도해보세요");
         }
     });
+
 }
 
+function updateContinueBtn(type){
+    switch(type){
+        case 'avail':
+            var continueBtnHtml= `<a onclick="sendEmailCode();" id="continueBtn" class="btn btn-primary btn-user btn-block">
+                                    계속하기
+                                  </a>`;
+            $("#continueBtnDiv_1").html(continueBtnHtml);
+            break;
+        case 'load':
+            var continueBtnHtml= `<a href="#" id="LoadingContinueBtn" class="btn btn-primary btn-user btn-block">
+                                     <div class="spinner-border spinner-border-sm" role="status">
+                                         <span class="visually-hidden">Loading...</span>
+                                     </div>
+                                  </a>`
+            $('#continueBtnDiv_1').html(continueBtnHtml);
+            break;
+        case 'non-avail':
+            var continueBtnHtml= `<a href="#" id="disabledBtn" class="btn btn-secondary btn-user btn-block disabled">
+                                      계속하기
+                                  </a>`
+            $('#continueBtnDiv_1').html(continueBtnHtml);
+            break;
+    }
+}
 
 function showCodeInput(email){
     $('.user_email').css('display','none');
@@ -134,11 +158,9 @@ jQuery(function() {
 
     $('#inputEmail').on('keyup change', function() {
         if (emailForm.valid()) { // 유효성 검사 통과 여부 확인
-            var continueBtnHtml=
-                `<a onclick="sendEmailCode();" id="continueBtn" class="btn btn-primary btn-user btn-block">
-                    계속하기
-                </a>`;
-            $("#continueBtnDiv_1").html(continueBtnHtml);
+            updateContinueBtn('avail');
+        } else {
+            updateContinueBtn('non-avail')
         }
     });
 });

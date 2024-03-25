@@ -7,5 +7,5 @@ public class EmailConstants {
     public static final String PREFIX_CERTIFICATION = "email certification:";
     public static final String PREFIX_TRY_CERTIFICATION = "email try count:";
     public static final String PREFIX_TRY_VERIFICATION = "email code try count:";
-    public static final int LIMIT_MINUTE_CERTIFICATION = 30;
+    public static final String PREFIX_EMAIL_ID = "email cert history ID:";
 }

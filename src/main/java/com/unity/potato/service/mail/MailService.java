@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
 
 import static com.unity.potato.util.constants.EmailConstants.*;
@@ -64,7 +65,7 @@ public class MailService{
             sendHtmlMessage(emailVo);
             saveEmailCertHistory(emailVo);
 
-            redisUtil.add(PREFIX_CERTIFICATION+email , emailVo.getCertCd(), LIMIT_MINUTE_CERTIFICATION);
+            redisUtil.add(PREFIX_CERTIFICATION+email , emailVo.getCertCd(), 5);
         } catch (Exception e){
             e.printStackTrace();
             throw new Exception();
@@ -112,6 +113,7 @@ public class MailService{
         mailVo.setEmail(email);
         mailVo.setEmailtitle(TITLE_EMAIL_CHECK);
         mailVo.setHtmlContent(selectHtmlBody("certEmail", certCd));
+        mailVo.setEmailType('T');
 
         return mailVo;
     }
@@ -137,12 +139,26 @@ public class MailService{
         return String.format("%04d", randomNum); // 4자리로 맞추고 앞을 0으로 채움
     }
 
+    /**
+     * 인증코드 확인 서비스
+     * - 레디스에 저장된 인증코드와 입력 코드 비교
+     * - 인증 성공시 이력 저장 및 redis 저장 데이터 삭제
+     */
+    @Transactional
     public boolean isCodeVerified(EmailAuthRequest request){
-        String redisCode = redisUtil.getValue(PREFIX_CERTIFICATION+request.getEmail());
-
+        String email = request.getEmail();
+        String redisCode = redisUtil.getValue(PREFIX_CERTIFICATION+email);
 
         if(redisCode != null){
-            if(request.getCode().equals(redisCode)){
+            if(request.getCode().equals(redisCode)){    // 인증 성공
+                EmailVo emailVo = new EmailVo();
+                emailVo.setEmailType('V');
+                emailVo.setEmail(email);
+
+                saveEmailCertHistory(emailVo);
+
+                redisUtil.delete(PREFIX_CERTIFICATION+email);
+
                 return true;
             }
         }
