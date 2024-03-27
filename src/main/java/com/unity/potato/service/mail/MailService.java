@@ -17,8 +17,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.unity.potato.util.constants.EmailConstants.*;
 
@@ -180,6 +179,17 @@ public class MailService{
         redisUtil.addWithExpireDay(key, tryCnt.toString(), 1L);
 
         return tryCnt;
+    }
+
+    public Map<String, Object> generateUuid(EmailAuthRequest request){
+        Map<String, Object> uuidMap = new HashMap<>();
+        String uuid = UUID.randomUUID().toString().substring(0,6);
+        System.out.println("uuid : " + uuid);
+        uuidMap.put("uuid", uuid);
+
+        redisUtil.add(EMAIL_VERIFICATION_ID+request.getEmail(), uuid);
+
+        return uuidMap;
     }
 
 }

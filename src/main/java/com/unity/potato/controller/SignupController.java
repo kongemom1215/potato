@@ -4,11 +4,17 @@ import com.unity.potato.domain.user.UserInfoRepository;
 import com.unity.potato.dto.request.EmailAuthRequest;
 import com.unity.potato.dto.response.Result;
 import com.unity.potato.service.mail.MailService;
+import com.unity.potato.util.RedisUtil;
+import com.unity.potato.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.UUID;
+
+import static com.unity.potato.util.constants.EmailConstants.EMAIL_VERIFICATION_ID;
 
 @RestController
 @RequestMapping("/api/signup")
@@ -16,6 +22,9 @@ public class SignupController {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Autowired
     private UserInfoRepository userInfoRepository;
@@ -26,6 +35,10 @@ public class SignupController {
     @PostMapping("/send-email-auth")
     public ResponseEntity<?> sendEmailAuth(@RequestParam("inputEmail") String inputEmail) throws IOException {
         try {
+            if(!StringUtil.isEmailType(inputEmail)){
+                return ResponseEntity.ok(new Result("9997","이메일 형식으로 입력해주세요."));
+            }
+
             if(mailService.getEmailTryCount(inputEmail) > 10){
                 return ResponseEntity.ok(new Result("9998","인증 시도 횟수가 10회 넘었습니다. 내일 다시 시도하시길 바랍니다."));
             }
@@ -51,7 +64,9 @@ public class SignupController {
                 return ResponseEntity.ok(new Result("9998","코드 인증 시도 횟수가 10회 넘었습니다. 내일 다시 시도하시길 바랍니다."));
             }
             if(mailService.isCodeVerified(request)){
-                return ResponseEntity.ok(new Result("0000","ok"));
+
+                Map<String, Object> data = mailService.generateUuid(request);
+                return ResponseEntity.ok(new Result("0000","ok", data));
             }
         } catch (Exception e) {
             e.printStackTrace();

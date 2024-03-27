@@ -1,9 +1,12 @@
 package com.unity.potato.dto.response;
 
+import java.util.Map;
+
 public class Result {
 
     private String resultCode;
     private String resultMsg;
+    private Object data;
 
     public Result(String resultMsg) {
         this.resultMsg = resultMsg;
@@ -12,6 +15,12 @@ public class Result {
     public Result(String resultCode, String resultMsg) {
         this.resultCode = resultCode;
         this.resultMsg = resultMsg;
+    }
+
+    public Result(String resultCode, String resultMsg, Object data) {
+        this.resultCode = resultCode;
+        this.resultMsg = resultMsg;
+        this.data = data;
     }
 
     public String getCode() {
@@ -36,5 +45,13 @@ public class Result {
 
     public void setResultMsg(String resultMsg) {
         this.resultMsg = resultMsg;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }
