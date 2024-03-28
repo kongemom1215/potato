@@ -184,7 +184,6 @@ public class MailService{
     public Map<String, Object> generateUuid(EmailAuthRequest request){
         Map<String, Object> uuidMap = new HashMap<>();
         String uuid = UUID.randomUUID().toString().substring(0,6);
-        System.out.println("uuid : " + uuid);
         uuidMap.put("uuid", uuid);
 
         redisUtil.add(EMAIL_VERIFICATION_ID+request.getEmail(), uuid);

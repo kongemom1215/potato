@@ -1,19 +1,116 @@
- function signup(){
+$(document).ready(function(){
+    setEmailField();
+});
+
+function signup(){
     console.log("회원가입 진행");
+
+    if(cookieUtil.getCookie("nicknameCertYn") != "Y"){
+        alert("닉네임 중복 여부를 확인하세요.");
+        return;
+    }
+
+    var emailKey = sessionStorage.getItem("emailKey");
+    var nicknameKey = sessionStorage.getItem("nicknameKey");
+
+    $.ajax({
+        type: "POST",
+        url: "/api/signup",
+        data: {
+            email: $('#email').val(),
+            birthDate : $('#birthDate').val(),
+            nickname : $('#nickname').val(),
+            password : $('#password').val(),
+            agreeTermsUse : $('#serviceTerms').prop('checked'),
+            agreeTermsUseInfo : $('#personalTerms').prop('checked'),
+            agreeTermsMarketing : $('#marketingTerms').prop('checked'),
+            emailKey : emailKey,
+            nicknameKey : nicknameKey
+        },
+        success: function(result) {
+            if(result.resultCode == "0000"){ //성공
+                alert(result.resultMsg);
+                location.href="/community/login";
+            } else if(result.resultCode == "9999"){
+                alert("회원가입이 정상적으로 처리되지 않았습니다. 다시 시도해주세요.");
+                deleteSessionStorage();
+                deleteSignupCookie();
+                location.href="/community/login";
+            } else if(result.resultCode == "9998" || result.resultCode == "9990" ||
+                        result.resultCode == "9970"  || result.resultCode == "9961" ||
+                        result.resultCode == "9950" || result.resultCode == "9951" ||
+                        result.resultCode == "9930"){
+                alert(result.resultMsg));
+            } else if(result.resultCode == "9980" || result.resultCode == "9960"){
+                alert(result.resultMsg));
+                deleteSessionStorage();
+                deleteSignupCookie();
+                location.href="/community/login";
+            }
+        }, error: function(xhr){
+
+        }
+    });
+}
+
+function deleteSignupCookie(){
+    cookieUtil.deleteCookie("nicknameCertYn");
+    cookieUtil.deleteCookie("signupInputEmail");
+}
+
+function deleteSessionStorage(){
+    sessionStorage.clear();
+    //sessionStorage.removeItem("nicknameKey");
+    //sessionStorage.removeItem("emailKey");
 }
 
 function checkNickName(){
-    if(false){
-        var validContent = $('<div class="valid-feedback ml-1" style="display:block; width: 100%;margin-top: .25rem;font-size: 80%;color: #f00;"><i class="bi bi-exclamation-circle"></i> 중복된 닉네임입니다.</div>');
-        validContent.insertAfter($('#nicknameInputDiv'));
-    }else {
-        var validContent = $('<div class="valid-feedback ml-1" style="display:block; width: 100%;margin-top: .25rem;font-size: 80%;color: #1cc88a;"><i class="bi bi-check-circle"></i> 사용가능한 닉네임입니다.</div>');
-        validContent.insertAfter($('#nicknameInputDiv'));
-    }
 
-    alert("먼저 닉네임 규격을 맞춰주세요.");
+    $.ajax({
+        type: "POST",
+        url: "/api/validate/nickname",
+        data: {
+            nickname : $('#nickname').val();
+        },
+        success: function(result) {
+            if(result.resultCode == "0000"){ //성공
+                sessionStorage.setItem("nicknameKey", result.data);
+                cookieUtil.setCookie("nicknameCertYn", "Y");
+                guideNicknameValidate(result.resultCode,result.resultMsg);
+            } else if(result.resultCode == "9999"){ //중복된 닉네임
+                guideNicknameValidate(result.resultCode,result.resultMsg);
+            } else if(result.resultCode == "9998"){ //형식에 맞지 않는 닉네임
+                alert("닉네임 규격을 맞춰주세요.");
+            }
+        }, error: function(xhr){
+            var errorMessage = xhr.responseJSON.resultMsg;
+            console.log(errorMessage);
+        }
+    });
 
 }
+
+function guideNicknameValidate(code, msg){
+    switch(code){
+        case '0000':
+            var validContent = $('<div id="guide-nickname" class="valid-feedback ml-1" style="display:block; width: 100%;margin-top: .25rem;font-size: 80%;color: #1cc88a;"><i class="bi bi-check-circle"></i> '+ msg +'</div>');
+            validContent.insertAfter($('#nicknameInputDiv'));
+            break;
+        case '9999':
+            var validContent = $('<div id="guide-nickname" class="valid-feedback ml-1" style="display:block; width: 100%;margin-top: .25rem;font-size: 80%;color: #f00;"><i class="bi bi-exclamation-circle"></i> '+ msg +'</div>');
+            validContent.insertAfter($('#nicknameInputDiv'));
+            break;
+    }
+}
+
+
+function setEmailField(){
+    var email = cookieUtil.getCookie("signupInputEmail");
+    if(email != null){
+        $('#email').val(email);
+    }
+}
+
 
 jQuery(function() {
     const userForm = $('.user_info');
@@ -85,6 +182,12 @@ jQuery(function() {
                 checkPwdLength: true,
                 checkEmailContains: true,
                 checkPwdRule: true
+            },
+            serviceTerms: {
+                required: true
+            },
+            personalTerms: {
+                required: true
             }
         },
         messages: {                 // 오류값 발생시 출력할 메시지 수동 지정
@@ -106,6 +209,12 @@ jQuery(function() {
                 checkPwdLength: '8~16글자 이내로 입력해주세요.',
                 checkEmailContains: '이메일 주소가 포함되면 안됩니다.',
                 checkPwdRule: '영문, 숫자, 기호 중 2가지 이상 조합해주세요.'
+            },
+            serviceTerms: {
+                required: '이용약관에 동의해주세요'
+            },
+            personalTerms: {
+                required: '개인정보 이용약관에 동의해주세요'
             }
         },
         errorPlacement: function(error, element) {
@@ -121,6 +230,8 @@ jQuery(function() {
                 error.addClass('mt-2');
                 error.addClass('mx-2');
                 error.insertAfter($('#passwordInputDiv'));
+            } else if (element.attr("name") == "serviceTerms" || element.attr("name") == "personalTerms"){
+                alert(error);
             }
         }
     });
@@ -138,6 +249,13 @@ jQuery(function() {
                     계속하기
                 </a>`;
             $("#continueBtnDiv").html(continueBtnHtml);
+        }
+    });
+
+    $('#nickname').on('keyup change', function() {
+        if (cookieUtil.getCookie("nicknameCertYn") == "Y") { // 닉네임 중복 여부 체크 확인
+            $("#guide-nickname").remove();
+            cookieUtil.setCookie("nicknameCertYn", "N")
         }
     });
 });

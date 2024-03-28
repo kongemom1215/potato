@@ -33,6 +33,7 @@ function verificationCode(){
         }),
         success: function(result) {
             if(result.resultCode == "0000"){ //성공
+                sessionStorage.setItem("emailKey", result.data.uuid);
                 location.href='/community/login/signupForm?uuid='+result.data.uuid+'&email='+$('#inputEmail').val();
             } else if(result.resultCode == "9999"){ //실패
                 alert(result.resultMsg);
@@ -86,6 +87,7 @@ function sendEmailCode(){
     });
 
 }
+
 
 function updateContinueBtn(type){
     switch(type){
@@ -179,19 +181,19 @@ jQuery(function() {
         debug:true,
 
         rules: {                    // 유효성 검사 규칙
-            email: {                // 이메일 필드
+            inputEmail: {                // 이메일 필드
                 required: true,     // 필수 입력
                 regex: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
             }
         },
         messages: {                 // 오류값 발생시 출력할 메시지 수동 지정
-            email: {
+            inputEmail: {
                 required: '필수 입력 항목입니다.',
                 regex : '올바른 이메일 형식으로 입력하세요.'
             }
         },
         errorPlacement: function(error, element) {
-            if (element.attr("name") == "email") {
+            if (element.attr("name") == "inputEmail") {
                 error.addClass('mt-2');
                 error.addClass('mx-2');
                 error.insertAfter(element);

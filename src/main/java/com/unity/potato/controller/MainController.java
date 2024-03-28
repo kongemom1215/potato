@@ -56,11 +56,9 @@ public class MainController {
 
     @RequestMapping("/community/login/signupForm")
     public String goSignupForm(@RequestParam String uuid, @RequestParam String email){
-        System.out.println("uuid2 : " + uuid);
         if(uuid.equals(redisUtil.getValue(EMAIL_VERIFICATION_ID+email))){
             return "signupForm";
         }
-
         return "400Page";
     }
 }

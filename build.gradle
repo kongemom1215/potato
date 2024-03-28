@@ -29,7 +29,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'com.sun.mail:jakarta.mail-api:1.6.7'
+	//implementation group: 'org.mindrot.bcrypt', name: 'bcrypt', version: '0.3'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
 }

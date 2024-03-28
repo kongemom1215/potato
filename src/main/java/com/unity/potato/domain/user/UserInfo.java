@@ -1,5 +1,6 @@
 package com.unity.potato.domain.user;
 
+import com.unity.potato.dto.request.SignupRequest;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -32,14 +33,67 @@ public class UserInfo {
     @Column(name = "last_login_dt")
     private LocalDateTime lastLoginDt;
 
+    public UserInfo(SignupRequest info, String encodePwd){
+        this.userEmail = info.getEmail();
+        this.userBirth = info.getBirthDate();
+        this.userPwd = encodePwd;
+        this.userNickname = info.getNickname();
+        this.joinDt = LocalDateTime.now();
+    }
 
-    public UserInfo(Long userId, String userEmail, String userBirth, String userPwd, String userNickname, LocalDateTime joinDt, LocalDateTime lastLoginDt) {
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getUserBirth() {
+        return userBirth;
+    }
+
+    public void setUserBirth(String userBirth) {
         this.userBirth = userBirth;
+    }
+
+    public String getUserPwd() {
+        return userPwd;
+    }
+
+    public void setUserPwd(String userPwd) {
         this.userPwd = userPwd;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
         this.userNickname = userNickname;
+    }
+
+    public LocalDateTime getJoinDt() {
+        return joinDt;
+    }
+
+    public void setJoinDt(LocalDateTime joinDt) {
         this.joinDt = joinDt;
+    }
+
+    public LocalDateTime getLastLoginDt() {
+        return lastLoginDt;
+    }
+
+    public void setLastLoginDt(LocalDateTime lastLoginDt) {
         this.lastLoginDt = lastLoginDt;
     }
 }

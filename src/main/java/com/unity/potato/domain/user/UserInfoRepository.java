@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
     boolean existsByUserEmail (String inputEmail);
+
+    boolean existsByUserNickname (String inputNickname);
 }
